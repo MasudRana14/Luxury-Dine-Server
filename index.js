@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const app = express();
 const port = process.env.PORT || 5000;
@@ -33,15 +33,23 @@ async function run() {
 
     const foodCollection = client.db('foodDB').collection('foods');
 
-
+    // get all foods data 
     app.get('/foods', async(req, res)=>{
       const cursor = foodCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
 
+    // get single food data 
+    app.get('/foods/:id', async(req, res)=>{
+     const id = req.params.id
+     const filter = {_id:new ObjectId(id)}
+      const result = await foodCollection.findOne(filter);
+      res.send(result);
+    })
 
 
+    // Post food data on mongodb 
     app.post('/foods', async(req, res)=>{
         const newFoods = req.body;
         const result = await foodCollection.insertOne(newFoods);
