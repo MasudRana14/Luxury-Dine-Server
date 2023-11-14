@@ -33,6 +33,15 @@ async function run() {
 
     const foodCollection = client.db('foodDB').collection('foods');
 
+
+    app.get('/foods', async(req, res)=>{
+      const cursor = foodCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+
+
     app.post('/foods', async(req, res)=>{
         const newFoods = req.body;
         const result = await foodCollection.insertOne(newFoods);
@@ -50,9 +59,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
-
 
 
 app.get('/', (req, res)=>{
