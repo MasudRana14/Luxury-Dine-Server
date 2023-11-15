@@ -42,15 +42,7 @@ async function run() {
       res.send(result);
     })
 
-    // pagination food count 
-
-    // app.get('/foodsCount', async(req, res)=>{
-    //   const count = await foodCollection.estimatedDocumentCount();
-    //   res.send({count})
-    // })
-
-
-
+  
 
     // get single food data 
     app.get('/foods/:id', async (req, res) => {
