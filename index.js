@@ -33,28 +33,50 @@ async function run() {
 
     const foodCollection = client.db('foodDB').collection('foods');
 
+    const orderCollection = client.db('foodDB').collection('order');
+
     // get all foods data 
-    app.get('/foods', async(req, res)=>{
+    app.get('/foods', async (req, res) => {
       const cursor = foodCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
 
+    // pagination food count 
+
+    // app.get('/foodsCount', async(req, res)=>{
+    //   const count = await foodCollection.estimatedDocumentCount();
+    //   res.send({count})
+    // })
+
+
+
+
     // get single food data 
-    app.get('/foods/:id', async(req, res)=>{
-     const id = req.params.id
-     const filter = {_id:new ObjectId(id)}
+    app.get('/foods/:id', async (req, res) => {
+      const id = req.params.id
+      const filter = { _id: new ObjectId(id) }
       const result = await foodCollection.findOne(filter);
       res.send(result);
     })
 
 
     // Post food data on mongodb 
-    app.post('/foods', async(req, res)=>{
-        const newFoods = req.body;
-        const result = await foodCollection.insertOne(newFoods);
-        res.send(result);
+    app.post('/foods', async (req, res) => {
+      const newFoods = req.body;
+      const result = await foodCollection.insertOne(newFoods);
+      res.send(result);
     })
+
+
+
+    // Post Order Food On mongodb 
+    app.post('/order', async (req, res) => {
+      const newFoods = req.body;
+      const result = await orderCollection.insertOne(newFoods);
+      res.send(result);
+    })
+
 
 
 
@@ -69,10 +91,10 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res)=>{
-    res.send('Restaurant management is running')
+app.get('/', (req, res) => {
+  res.send('Restaurant management is running')
 })
 
-app.listen(port, ()=>{
-    console.log(`Restaurant Management Server Is Running On Port ${port}`)
+app.listen(port, () => {
+  console.log(`Restaurant Management Server Is Running On Port ${port}`)
 })
