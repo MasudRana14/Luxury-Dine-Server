@@ -64,10 +64,20 @@ async function run() {
 
     // Post Order Food On mongodb 
     app.post('/order', async (req, res) => {
-      const newFoods = req.body;
-      const result = await orderCollection.insertOne(newFoods);
+      const orderFoods = req.body;
+      const result = await orderCollection.insertOne(orderFoods);
       res.send(result);
     })
+
+
+
+      // get My Order foods Items 
+      app.get('/order', async (req, res) => {
+        const cursor = orderCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      })
+  
 
 
 
